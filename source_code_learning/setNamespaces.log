@@ -10,4 +10,23 @@
     |->pc,err := daemon.getPidContainer(c)
     |->ns.Path = fmt.Sprintf("/proc/%d/ns/pid",pc.State.GetPID())
     |->setNamespace(s,ns)
+     |->append()
    |->setCapabilities()
+  |->daemon.containerd.Create() [ containerd: libcontainerd.Client]
+   |->clnt.newContainer()  
+
+|->ContainerCreate()
+ |->containerCreate()
+  |->daemon.verifyContainerSettings()
+  |->daemon.verifyNetworkingConfig()
+  |->daemon.adaptContainerSettings()
+  |->daemon.create()
+   |->daemon.GetImage()
+   |->daemon.mergeAndVerifyConfig()
+   |->daemon.mergeAndVerifyLogConfig()
+   |->daemon.newContainer()
+
+
+/* package ns [vendor/github.com/docker/libnetwork/ns/init_linux.go ]*/
+|->SetNamespace
+ |->netns.Set()
