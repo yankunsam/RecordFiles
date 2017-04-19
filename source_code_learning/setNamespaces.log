@@ -1,0 +1,13 @@
+/*docker/daemon/start.go*/
+|->Start()
+ |->containerStart()
+  |->createSpec()
+   |->setDevices()
+   |->setRlimits()
+   |->setUser()
+   |->setNamespaces(daemon *Daemon, s *specs.Spec,c *container.Container))[ spec is the base configuration for the container]
+    |->ns := specs.Namespace{ Type:"pid"}   [ Here, we choose the pid_namespace :)]
+    |->pc,err := daemon.getPidContainer(c)
+    |->ns.Path = fmt.Sprintf("/proc/%d/ns/pid",pc.State.GetPID())
+    |->setNamespace(s,ns)
+   |->setCapabilities()
