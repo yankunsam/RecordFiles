@@ -1,0 +1,14 @@
+./namespace/ns_exec
+./namespace/newuts
+./qemu_vtpm_init_start/create.sh
+./qemu_vtpm_init_start/vtpm_init.sh
+./qemu_vtpm_init_start/start.sh
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/pre-push.sample
+./.git/hooks/update.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/post-update.sample
+./.git/hooks/prepare-commit-msg.sample
