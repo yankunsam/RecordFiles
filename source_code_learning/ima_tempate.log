@@ -1,0 +1,106 @@
+
+
+
+
+
+
+
+
++------------------------+
+struct ima_field_data {
+	u8 *data;
+	u32 len;
+}
++------------------------+
+
+
++----------------------------------------------------+
+struct ima_event_data {
+        struct integrity_iint_cache *iint;
+        struct file *file;
+        const unsigned char *filename;
+        struct evm_ima_xattr_data *xattr_value;
+        int xattr_len;
+        const char *violation;
+};
++----------------------------------------------------+
+
++-----------------------------------------------------------------------+
+/*generate and display data of a given type*/
+struct ima_template_field {
+        const char field_id[IMA_TEMPLATE_FIELD_ID_MAX_LEN];
+        int (*field_init)(struct ima_event_data *event_data,
+                          struct ima_field_data *field_data);
+        void (*field_show)(struct seq_file *m, enum ima_show_type show,
+                           struct ima_field_data *field_data);
+};
++-----------------------------------------------------------------------+
+
+
+
+
++-------------------------------------------------------------------------+
+static struct ima_template_field supported_fields[] = {
+        {.field_id = "d", .field_init = ima_eventdigest_init,
+         .field_show = ima_show_template_digest},
+        {.field_id = "n", .field_init = ima_eventname_init,
+         .field_show = ima_show_template_string},
+        {.field_id = "d-ng", .field_init = ima_eventdigest_ng_init,
+         .field_show = ima_show_template_digest_ng},
+        {.field_id = "n-ng", .field_init = ima_eventname_ng_init,
+         .field_show = ima_show_template_string},
+        {.field_id = "sig", .field_init = ima_eventsig_init,
+         .field_show = ima_show_template_sig},
+        {.field_id = "nid", .field_init = ima_namespaceid_init,
+         .field_show = ima_show_namespaceid},
+};
++-------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
++----------------------------------------------------+
+/*determine which information should be included in the measurement list*/
+struct ima_template_desc {
+        char *name;
+        char *fmt;
+        int num_fields;
+        struct ima_template_field **fields;
+};
++----------------------------------------------------+
+
++---------------------------------------------------------------------------+
+struct ima_template_entry {
+        int pcr;
+        u8 digest[TPM_DIGEST_SIZE];     /* sha1 or md5 measurement hash */
+        struct ima_template_desc *template_desc; /* template descriptor */
+        u32 template_data_len;
+        struct ima_field_data template_data[0]; /* template related data */
+};
++---------------------------------------------------------------------------+
+
++-------------+
+int violation
++-------------+
+
++---------+
+seq_open()
++---------+
+
+|->ima_store_measurement()
+	|->ima_alloc_init_template(&event_data,&entry)
+		|->ima_template_desc_current()
+	|->ima_store_template(entry,violation,inode,filename)
+		|->ima_add_template_entry()
+			|->ima_lookup_digest_entry()
+			|->ima_add_digest_entry()/*Add template entry to measurement list and hash table*/
+			|->ima_pcr_extend()
+
+
+
