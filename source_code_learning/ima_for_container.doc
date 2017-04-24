@@ -1,0 +1,60 @@
++----------------------------+
+In container:
+[root@sam_dev sam]# docker container ps --all
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+7a7c46a02794        fedora              "/bin/bash"         34 minutes ago      Exited (0) 13 minutes ago                       objective_goldstine
+[root@sam_dev sam]# docker attach 7a7c46a02794
+You cannot attach to a stopped container, start it first
+[root@sam_dev sam]# docker start 7a7c46a02794
+7a7c46a02794
+[root@sam_dev sam]# docker attach 7a7c46a02794
+[root@7a7c46a02794 /]# sleep 1h
+
+
++----------------------------+
+
+
++------------------------+
+In host
+[sam@sam_dev ~]$ ps -aux | grep sleep
+root      3142  0.0  0.0   4360   676 pts/3    S+   11:39   0:00 sleep 1h
+sam       3144  0.0  0.0 119372   948 pts/4    S+   11:39   0:00 grep --color=auto sleep
+[sam@sam_dev ~]$ 
+
+
+
+[root@sam_dev ima]# cat ascii_runtime_measurements | grep sleep
+10 5d8b0d050849d7b2f4f926221efff919b703cd99 ima-ns [pid=560_nsppid=1_ns=4026531840] 5500878a340657948f4d6726ede14904ee75b5bc /usr/bin/sleep
+10 937de1f84470204c70360a1e13ee91f1c7a19d99 ima-ns [pid=2533_nsppid=1_ns=4026531840] d64c327f8e0a130d2cd13b274664d39b4c4c1334 /usr/share/man/man1/sleep.1.gz
+10 3441c57c662481b6d61db61cd4ceaea1afd5d987 ima-ns [pid=2533_nsppid=1_ns=4026531840] 3e6f40758752d6426d7135482ef4a378fe255eea /usr/share/man/man1p/sleep.1p.gz
+10 ae0ba56b3feaac821891ca25ff0f02ed41fd50a4 ima-ns [pid=2533_nsppid=1_ns=4026531840] 8563e347ee7b6feee8850c89393c7bfd1d121794 /usr/share/man/man3/sleep.3.gz
+10 bb194e763d910a9523a1888b5cf8a118a9b4595e ima-ns [pid=2533_nsppid=1_ns=4026531840] 29713a8a71d19a63bc96da154f5e538468744f88 /usr/share/man/man3p/sleep.3p.gz
+10 a25a2b962008212855fa670ce8d3b795b32a69fb ima-ns [pid=3142_nsppid=2964_ns=4026532427] 5500878a340657948f4d6726ede14904ee75b5bc /usr/bin/sleep
+
+
+
+[root@sam_dev sam]# ls -l /proc/3142/ns/
+total 0
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 cgroup -> 'cgroup:[4026531835]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 ipc -> 'ipc:[4026532429]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 mnt -> 'mnt:[4026532427]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 net -> 'net:[4026532432]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 pid -> 'pid:[4026532430]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 user -> 'user:[4026531837]'
+lrwxrwxrwx 1 root root 0 Apr 24 11:39 uts -> 'uts:[4026532428]'
+[root@sam_dev sam]# 
+
+
+sam       6064  0.1  0.0 142268  7748 pts/6    S+   11:40   0:00 vim ima_for_container.doc
+
+[root@sam_dev sam]# ls -l /proc/6064/ns/
+total 0
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 cgroup -> 'cgroup:[4026531835]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 ipc -> 'ipc:[4026531839]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 mnt -> 'mnt:[4026531840]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 net -> 'net:[4026531969]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 pid -> 'pid:[4026531836]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 user -> 'user:[4026531837]'
+lrwxrwxrwx 1 sam sam 0 Apr 24 11:42 uts -> 'uts:[4026531838]'
+[root@sam_dev sam]# 
+
