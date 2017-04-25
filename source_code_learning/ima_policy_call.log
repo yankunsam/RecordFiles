@@ -1,0 +1,13 @@
+ima.h: extern int ima_policy_flag;
+
+|->ima_update_policy_flag()
+	|->
+
+
++------------------------------+
+struct ima_rule_entry {
+	struct list_head list;
+	...
+
+}
++------------------------------+

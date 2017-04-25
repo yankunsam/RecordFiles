@@ -1,0 +1,15 @@
+fork.c
+|->SYSCALL_DEFINE5(clone,unsigned long,clone_flags,...
+ |->_do_fork(clone_flags,)
+  |->copy_process(clone_flags,...)
+   |-> struct task_struct *p = dup_task_struct(current);
+   |->security_task_create(clone_flags)/*The current LSM hook*/
+   |->copy_namespaces(clone_flags,p)
+    |->likely()
+    |->ns_capable()
+    |->create_new_namespaces(flags,tsk,user_ns,tsk->fs)
+     |->copy_mnt_ns(flags,tsk->nsproxy-mnt_ns,user_ns,new_fs)
+     |->copy_utsname()
+     |->copy_ipcs()
+     |->copy_pid_ns()
+     |->copy_net_ns()

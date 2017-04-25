@@ -1,0 +1,10 @@
+|->ima_file_check()
+	|->process_measurement(file,mask &(MAY_READ|MAY_WRITE|MAY_EXEC),FILE_CHECK,opened)
+		|->ima_get_action(inode,mask,function) /*Return an IMA_MEASURE,IMA_APPRAISE,IMA_AUDIT*/
+			|->ima_match_policy(inode,function,mask,flags)
+		|->integrity_inode_get()
+		|->ima_template_desc_current()
+		|->ima_collect_measurement()
+		|->ima_store_measurement()
+		|->ima_appraise_measurement()
+		|->ima_audit_measurement()
