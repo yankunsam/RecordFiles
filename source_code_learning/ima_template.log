@@ -100,7 +100,25 @@ seq_open()
 		|->ima_add_template_entry()
 			|->ima_lookup_digest_entry()
 			|->ima_add_digest_entry()/*Add template entry to measurement list and hash table*/
-			|->ima_pcr_extend()
+			|->ima_pcr_extend(digest)
+				|->tpm_pcr_extend(TPM_ANY_NUM,CONFIG_IMA_MEASURE_PCR_IDX,hash)/*tpm.h: TPM_ANY_NUM 0xFFFF*/
+					|->tpm_transmit_cmd()
+						|->tpm_transmit()
+					|->tpm_chip_put()
 
+
+ima_show_template_field_data(struct seq_file *m,enum ima_show_type show,...)/*enum ima_show_type*/
+
+
+|->static int  ima_measurements_show(struct seq_file *m,void *v)
+	|->field->field_show(m,show,&e->template_data[i])
+
+
+
++--------------------------------+
+
+struct seq_operations
+
++--------------------------------+
 
 
