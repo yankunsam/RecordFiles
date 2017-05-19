@@ -1,0 +1,18 @@
+|->getNonce()
+ |->JS_Cmd_Nonce()
+ |->Socket_Process()
+ |->JS_ObjectUnmarshal()
+ |->JS_Rsp_Nonce()
+|->createQuote()
+ |->TSS_File_ReadStructure(&akPub,)
+ |->TSS_File_ReadStructure(&akPriv,)
+ |->runQuote() [ return the signature,quote data, and PCRs ]
+|->Array_PrintMalloc()
+|->TSS_Structure_Marshal()
+|->Array_PrintMalloc()
+|->for() [iterate through PCR ]
+ |->for() [iterate through each bank ]
+|->JS_Cmd_Quote()
+|->Socket_Process()
+|->JS_ObjectUnmarshal()
+|->JS_Rsp_Quote()
