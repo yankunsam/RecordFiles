@@ -1,7 +1,7 @@
-name = init
+name = default
 modules_cur := $(name).ko
 obj-m := $(name).o
-KERNEL := /home/sam/8lab_work/linux
+KERNEL := /lib/modules/$(shell uname -r)/build/
 all:
 	make -C $(KERNEL) M=`pwd` $(modules_cur)
 install:
