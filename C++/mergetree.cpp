@@ -1,5 +1,12 @@
 #include <iostream>
 using namespace std;
+struct TreeNode{
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+
+
+}
 TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
     if(t2==NULL) return t1;
     if(t1==NULL) return t2;
@@ -22,6 +29,17 @@ TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
 }
 int main()
 {
+	TreeNode t1;
+	t1.val = 100;
+	t1.left = NULL;
+	t1.right = NULL;
+
+	TreeNode t2;
+	t1.val = 200;
+	t2.left = NULL;
+	t2.right = NULL;
+	mergeTrees(&t1,&t2);
+
 
 
 }
